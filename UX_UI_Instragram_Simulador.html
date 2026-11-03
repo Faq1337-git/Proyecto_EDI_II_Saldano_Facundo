@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador Educativo de Privacidad y Phishing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #fafafa; }
+    .brand-font { font-family: 'Grand Hotel', cursive; }
+    .ig-gradient {
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    }
+    .xray-badge {
+      display: none;
+      animation: pulseBadge 2s infinite;
+    }
+    body.xray-active .xray-badge {
+      display: flex;
+    }
+    body.xray-active .xray-highlight {
+      outline: 2px dashed #ef4444;
+      outline-offset: 4px;
+      background-color: rgba(254, 226, 226, 0.25);
+    }
+    @keyframes pulseBadge {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-neutral-800">
+
+  <!-- BARRA DE NAVEGADOR SIMULADA (Para explicar Typosquatting y el mito del candado HTTPS) -->
+  <div class="bg-neutral-200 border-b border-neutral-300 px-4 py-2 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+    <div class="flex items-center space-x-2">
+      <span class="w-3 h-3 rounded-full bg-red-400 inline-block"></span>
+      <span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span>
+      <span class="w-3 h-3 rounded-full bg-green-400 inline-block"></span>
+    </div>
+
+    <!-- Barra de direcciones falsa con trampa homográfica -->
+    <div class="relative flex-1 max-w-2xl mx-4">
+      <div class="xray-highlight bg-white rounded-full px-4 py-1.5 flex items-center text-sm border border-neutral-300 shadow-inner">
+        <span class="text-emerald-600 font-semibold flex items-center mr-2" title="Certificado SSL">
+          🔒 Seguro |
+        </span>
+        <span class="text-neutral-400">https://www.</span>
+        <span class="text-neutral-900 font-medium">lnstagram</span>
+        <span class="text-neutral-500">-verificacion-seguridad.com/login</span>
+      </div>
+
+      <!-- Etiqueta Rayos X 1: URL y Candado -->
+      <div class="xray-badge absolute -bottom-16 left-0 right-0 bg-red-600 text-white text-xs p-2.5 rounded-lg shadow-lg z-40 items-start space-x-2">
+        <span class="font-bold text-base">⚠️ 1</span>
+        <div>
+          <strong>Ataque Homográfico + Mito del Candado:</strong> Dice <code>lnstagram</code> (con "L" minúscula en lugar de "i"). Además, el candado verde solo indica que la conexión está cifrada, <em>no</em> que el sitio sea oficial.
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón de control para la exposición en clase -->
+    <button id="toggleXrayBtn" onclick="toggleXray()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-3.5 py-2 rounded-lg shadow transition flex items-center space-x-1.5">
+      <span>🔍 Activar Modo Rayos X (Docente)</span>
+    </button>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL (Imitación de UI de Red Social) -->
+  <main class="flex-1 flex items-center justify-center p-4 my-6">
+    <div class="max-w-4xl w-full flex items-center justify-center space-x-8">
+
+      <!-- Columna Izquierda: Mockup visual de celular (solo en pantallas medianas/grandes) -->
+      <div class="hidden md:flex flex-col items-center justify-center relative w-80 h-[500px] bg-neutral-900 rounded-[40px] p-3 shadow-xl border-4 border-neutral-800">
+        <div class="w-24 h-4 bg-neutral-900 rounded-b-xl absolute top-3 z-10"></div>
+        <div class="w-full h-full bg-white rounded-[30px] overflow-hidden flex flex-col justify-between p-5">
+          <div class="flex items-center space-x-2 border-b pb-3 pt-2">
+            <div class="w-8 h-8 rounded-full ig-gradient"></div>
+            <div>
+              <div class="h-2.5 w-24 bg-neutral-200 rounded"></div>
+              <div class="h-2 w-16 bg-neutral-100 rounded mt-1"></div>
+            </div>
+          </div>
+          <div class="my-auto flex flex-col items-center text-center p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
+            <div class="w-16 h-16 rounded-2xl ig-gradient flex items-center justify-center text-white text-3xl font-bold mb-3 shadow">
+              📸
+            </div>
+            <p class="text-xs font-semibold text-neutral-700">Clonación de Interfaz (UI)</p>
+            <p class="text-[11px] text-neutral-500 mt-1">
+              Con menos de 100 líneas de HTML y CSS se replica la estética que el cerebro humano asocia con una marca de confianza.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <div class="h-2.5 w-full bg-neutral-200 rounded"></div>
+            <div class="h-2.5 w-3/4 bg-neutral-100 rounded"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Tarjeta de Login -->
+      <div class="w-full max-w-[350px] flex flex-col space-y-3 relative">
+
+        <!-- Tarjeta Principal -->
+        <div class="xray-highlight bg-white border border-neutral-300 px-10 py-8 flex flex-col items-center relative">
+          
+          <!-- Etiqueta Rayos X 2: Clonación CSS -->
+          <div class="xray-badge absolute -top-12 left-0 right-0 bg-red-600 text-white text-xs p-2 rounded-lg shadow-lg z-40 items-center space-x-2">
+            <span class="font-bold">⚠️ 2</span>
+            <span><strong>Ingeniería Social Visual:</strong> Tipografía, colores y bordes idénticos al sitio original para reducir el estado de alerta del usuario.</span>
+          </div>
+
+          <!-- Logo tipográfico -->
+          <h1 class="brand-font text-5xl mb-6 text-neutral-900 select-none tracking-wide">Instagram</h1>
+
+          <!-- Banner de urgencia (Cebo psicológico) -->
+          <div class="xray-highlight w-full bg-amber-50 border border-amber-200 text-amber-800 text-xs p-2.5 rounded mb-4 text-center">
+            <strong>Aviso de seguridad:</strong> Detectamos un inicio de sesión inusual. Verificá tu cuenta para evitar el bloqueo temporal.
+          </div>
+
+          <!-- Etiqueta Rayos X 3: Cebo Psicológico -->
+          <div class="xray-badge w-full bg-red-600 text-white text-xs p-2 rounded-lg shadow mb-3 items-start space-x-2">
+            <span class="font-bold">⚠️ 3</span>
+            <span><strong>Sentido de Urgencia:</strong> El atacante genera miedo ("bloqueo de cuenta") para que la víctima actúe rápido y sin verificar la URL.</span>
+          </div>
+
+          <!-- Formulario (Sin backend ni captura de datos) -->
+          <form id="demoForm" onsubmit="handleSimulatedSubmit(event)" class="w-full space-y-2" autocomplete="off">
+            <div>
+              <input 
+                type="text" 
+                id="mockUser"
+                placeholder="Teléfono, usuario o correo electrónico" 
+                required
+                autocomplete="off"
+                class="w-full text-xs bg-neutral-50 border border-neutral-300 rounded px-2.5 py-2.5 focus:outline-none focus:border-neutral-400"
+              >
+            </div>
+            <div>
+              <input 
+                type="password" 
+                id="mockPass"
+                placeholder="Contraseña" 
+                required
+                autocomplete="new-password"
+                class="w-full text-xs bg-neutral-50 border border-neutral-300 rounded px-2.5 py-2.5 focus:outline-none focus:border-neutral-400"
+              >
+            </div>
+
+            <button 
+              type="submit" 
+              class="w-full bg-[#0095f6] hover:bg-[#1877f2] text-white font-semibold text-sm py-1.5 rounded-lg transition mt-2"
+            >
+              Iniciar sesión
+            </button>
+          </form>
+
+          <!-- Etiqueta Rayos X 4: Gestor de contraseñas -->
+          <div class="xray-badge w-full bg-red-600 text-white text-xs p-2 rounded-lg shadow mt-3 items-start space-x-2">
+            <span class="font-bold">⚠️ 4</span>
+            <span><strong>Defensa clave:</strong> Un Gestor de Contraseñas detecta que el dominio real no es <code>instagram.com</code> y se niega a autocompletar la clave.</span>
+          </div>
+
+          <!-- Separador "O" -->
+          <div class="flex items-center my-5 w-full">
+            <div class="flex-1 border-t border-neutral-300"></div>
+            <span class="px-4 text-xs font-semibold text-neutral-400 uppercase">o</span>
+            <div class="flex-1 border-t border-neutral-300"></div>
+          </div>
+
+          <!-- Botón secundario visual -->
+          <button type="button" onclick="triggerEducationalModal()" class="text-xs font-semibold text-[#385185] flex items-center space-x-1.5">
+            <span>📘 Iniciar sesión con Facebook</span>
+          </button>
+          <button type="button" onclick="triggerEducationalModal()" class="text-xs text-[#00376b] mt-4">
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
+
+        <!-- Tarjeta Secundaria: Registro -->
+        <div class="bg-white border border-neutral-300 py-4 text-center text-sm">
+          <span>¿No tienes una cuenta? </span>
+          <button type="button" onclick="triggerEducationalModal()" class="text-[#0095f6] font-semibold">Regístrate</button>
+        </div>
+
+        <!-- Nota visible de transparencia ética al pie de la tarjeta -->
+        <div class="text-center pt-2">
+          <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] font-medium px-2.5 py-1 rounded-full border border-emerald-300">
+            🛡️ Entorno Académico Seguro: Ningún dato ingresado es leído ni almacenado
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER EDUCATIVO -->
+  <footer class="py-4 text-center text-xs text-neutral-400 border-t border-neutral-200 bg-white">
+    Proyecto de Concientización en Seguridad de Datos y Privacidad Digital — Demostración exclusivamente visual y educativa.
+  </footer>
+
+  <!-- MODAL EDUCATIVO (Se abre al hacer clic en Iniciar Sesión) -->
+  <div id="eduModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-neutral-200">
+      <div class="flex items-center space-x-3 text-red-600 mb-4">
+        <span class="text-3xl">🚨</span>
+        <h2 class="text-xl font-bold">¡Simulación de Engaño Completada!</h2>
+      </div>
+      
+      <p class="text-sm text-neutral-600 mb-4 leading-relaxed">
+        Si esta hubiera sido una página maliciosa real (<strong>Phishing</strong>), tus credenciales habrían sido enviadas a un servidor externo en milisegundos. 
+        <strong class="text-emerald-700 block mt-1">Tranquilo/a: en esta demostración tus campos fueron borrados inmediatamente en tu navegador sin leerse ni guardarse.</strong>
+      </p>
+
+      <div class="bg-neutral-50 border border-neutral-200 rounded-xl p-4 mb-5 space-y-2.5 text-xs text-neutral-700">
+        <h3 class="font-bold text-neutral-900 text-sm">¿Cómo prevenir caer en esta trampa?</h3>
+        <p>1. <strong>Verificá el dominio exacto:</strong> Mirá la barra superior del simulador; dice <code>lnstagram-verificacion...</code> con una "L" minúscula.</p>
+        <p>2. <strong>No confíes solo en el candado (HTTPS):</strong> Hoy cualquier atacante obtiene un certificado SSL gratuito en minutos.</p>
+        <p>3. <strong>Activá el Doble Factor de Autenticación (2FA / Passkeys):</strong> Aunque roben tu contraseña, no podrán entrar sin tu segundo factor.</p>
+        <p>4. <strong>Usá un Gestor de Contraseñas:</strong> El navegador o gestor valida el dominio real por vos y no autocompleta datos en sitios clonados.</p>
+      </div>
+
+      <div class="flex justify-end space-x-3">
+        <button onclick="enableXrayFromModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition">
+          🔍 Ver las trampas en la página (Modo Rayos X)
+        </button>
+        <button onclick="closeModal()" class="bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-xs font-semibold px-4 py-2.5 rounded-lg transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function handleSimulatedSubmit(event) {
+      event.preventDefault();
+      // Limpieza inmediata de los inputs sin leer ni guardar su contenido
+      document.getElementById('mockUser').value = '';
+      document.getElementById('mockPass').value = '';
+      triggerEducationalModal();
+    }
+
+    function triggerEducationalModal() {
+      const modal = document.getElementById('eduModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('eduModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleXray() {
+      document.body.classList.toggle('xray-active');
+      const btn = document.getElementById('toggleXrayBtn');
+      if (document.body.classList.contains('xray-active')) {
+        btn.innerHTML = '<span>❌ Desactivar Modo Rayos X</span>';
+        btn.classList.replace('bg-indigo-600', 'bg-red-600');
+        btn.classList.replace('hover:bg-indigo-700', 'hover:bg-red-700');
+      } else {
+        btn.innerHTML = '<span>🔍 Activar Modo Rayos X (Docente)</span>';
+        btn.classList.replace('bg-red-600', 'bg-indigo-600');
+        btn.classList.replace('hover:bg-red-700', 'hover:bg-indigo-700');
+      }
+    }
+
+    function enableXrayFromModal() {
+      closeModal();
+      if (!document.body.classList.contains('xray-active')) {
+        toggleXray();
+      }
+    }
+  </script>
+</body>
+</html>
